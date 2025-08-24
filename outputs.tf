@@ -1,14 +1,25 @@
+/*
+    outputs.tf
+
+    This file defines the output values for your OpenTofu configuration.
+    It's crucial for a Kubernetes cluster to export the kubeconfig file,
+    which you will use to connect to and manage your cluster.
+*/
+
+// Output from the single Vultr instance.
 output "server_ip" {
-  description = "The main IP address of the newly created server."
-  value       = vultr_instance.my_server.main_ip
+  description = "The main IP address of the single server."
+  value       = module.my_server_instance.server_ip
 }
 
-output "server_label" {
-  description = "The label of the server."
-  value       = vultr_instance.my_server.label
+// Output from the Kubernetes cluster.
+output "kubeconfig" {
+  description = "The kubeconfig file content for the cluster."
+  value       = module.my_k8s_cluster.kubeconfig
+  sensitive   = true
 }
 
-output "ssh_key_id" {
-  description = "The ID of the SSH key that was uploaded to Vultr."
-  value       = data.vultr_ssh_key.my_key.id
+output "api_server" {
+  description = "The API server endpoint for the cluster."
+  value       = module.my_k8s_cluster.api_server
 }

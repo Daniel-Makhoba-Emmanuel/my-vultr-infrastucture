@@ -12,13 +12,13 @@ variable "vultr_region" {
 variable "vultr_plan" {
   description = "The Vultr plan ID for the instance (e.g., 'vc2-1c-512mb')."
   type        = string
-  default     = "vc2-1c-512mb"
+  default     = "vc2-1c-1gb"
 }
 
 variable "vultr_os_id" {
   description = "The Vultr OS ID for the instance (e.g., '387' for Ubuntu 22.04)."
   type        = number
-  default     = 387
+  default     = 1743
 }
 
 variable "server_label" {
@@ -28,17 +28,13 @@ variable "server_label" {
 }
 
 variable "ssh_key_name" {
-  description = "A name for the SSH key to be uploaded to Vultr."
+  description = "The name of the SSH key already uploaded to Vultr."
   type        = string
-  default     = "opentofu-key"
-}
-
-variable "ssh_public_key" {
-  description = "The public SSH key string. Use the `file()` function to read from a local file."
-  type        = string
+  default     = "vultr_account_public_ssh_key"
 }
 
 variable "ssh_private_key_path" {
   description = "The path to the private key corresponding to the public key. Used for remote-exec."
   type        = string
+  default = "~/.ssh/vultr_key"
 }

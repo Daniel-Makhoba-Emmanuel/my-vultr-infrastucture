@@ -10,5 +10,5 @@ output "server_label" {
 
 output "ssh_key_id" {
   description = "The ID of the SSH key that was uploaded to Vultr."
-  value       = vultr_ssh_key.my_key.id
+  value       = data.vultr_ssh_key.my_key.id
 }

@@ -1,13 +1,23 @@
+/*
+    main.tf
+
+    This is the main configuration file where you define the Vultr
+    provider and the resources you want to create, such as a cloud server
+    and an SSH key. It uses the variables defined in `variables.tf`.
+*/
+
 // Configure the Vultr provider with the API key and region.
+// This is updated to use an environment variable directly.
 provider "vultr" {
   api_key = var.vultr_api_key
 }
 
-// Define a Vultr SSH Key resource.
-// This allows you to securely access your server after it's provisioned.
-resource "vultr_ssh_key" "my_key" {
-  name        = var.ssh_key_name
-  ssh_key = var.ssh_public_key
+data "vultr_ssh_key" "my_key" {
+  // Use a filter to find the SSH key by its name.
+  filter {
+    name = "name"
+    values = [var.ssh_key_name]
+  }
 }
 
 // Define a Vultr cloud instance (server) resource.
@@ -19,22 +29,6 @@ resource "vultr_instance" "my_server" {
   region = var.vultr_region
   label  = var.server_label
   os_id  = var.vultr_os_id
-  ssh_key_ids = [vultr_ssh_key.my_key.id]
-
-  // A common and helpful practice is to use a provisioner to run commands
-  // on the newly created server. This example updates the system packages.
-  // Note: This requires the server to be online and accessible.
-  provisioner "remote-exec" {
-    inline = [
-      "sudo apt-get update -y",
-      "sudo apt-get upgrade -y"
-    ]
-
-    connection {
-      type        = "ssh"
-      user        = "root"
-      host        = self.main_ip
-      private_key = file(var.ssh_private_key_path)
-    }
-  }
+  // Use the ID from the data source for your existing key.
+  ssh_key_ids = [data.vultr_ssh_key.my_key.id]
 }

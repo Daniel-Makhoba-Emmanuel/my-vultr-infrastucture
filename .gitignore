@@ -1,0 +1,6 @@
+.tofu
+.tofu.lock.hcl
+
+# Ignore sensitive files
+.env
+*.tfvars

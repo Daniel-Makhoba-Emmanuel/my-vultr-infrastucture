@@ -7,10 +7,10 @@
 */
 
 // Output from the single Vultr instance.
-output "server_ip" {
-  description = "The main IP address of the single server."
-  value       = module.my_server_instance.server_ip
-}
+# output "server_ip" {
+#   description = "The main IP address of the single server."
+#   value       = module.my_server_instance.server_ip
+# }
 
 // Output from the Kubernetes cluster.
 output "kubeconfig" {
@@ -19,7 +19,3 @@ output "kubeconfig" {
   sensitive   = true
 }
 
-output "api_server" {
-  description = "The API server endpoint for the cluster."
-  value       = module.my_k8s_cluster.api_server
-}

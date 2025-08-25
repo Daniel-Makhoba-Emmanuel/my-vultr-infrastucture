@@ -18,15 +18,15 @@ data "vultr_ssh_key" "my_key" {
   }
 }
 
-// Call the 'vultr_instance' module to create a single server.
-module "my_server_instance" {
-  source       = "./modules/vultr_instance"
-  plan         = var.vultr_instance_plan
-  region       = var.vultr_region
-  label        = var.instance_label
-  os_id        = var.vultr_os_id
-  ssh_key_id   = data.vultr_ssh_key.my_key.id
-}
+# // Call the 'vultr_instance' module to create a single server.
+# module "my_server_instance" {
+#   source       = "./modules/vultr_instance"
+#   plan         = var.vultr_instance_plan
+#   region       = var.vultr_region
+#   label        = var.instance_label
+#   os_id        = var.vultr_os_id
+#   ssh_key_id   = data.vultr_ssh_key.my_key.id
+# }
 
 // Call the 'vultr_k8s_cluster' module to create a Kubernetes cluster.
 module "my_k8s_cluster" {

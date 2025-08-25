@@ -18,13 +18,13 @@ variable "vultr_region" {
 variable "vultr_instance_plan" {
   description = "The Vultr plan for the single instance."
   type        = string
-  default     = "vc2-1c-512mb"
+  default     = "vc2-1c-1gb"
 }
 
 variable "vultr_os_id" {
   description = "The Vultr OS ID for the instance (e.g., '387' for Ubuntu 22.04)."
   type        = number
-  default     = 387
+  default     = 1743
 }
 
 variable "instance_label" {

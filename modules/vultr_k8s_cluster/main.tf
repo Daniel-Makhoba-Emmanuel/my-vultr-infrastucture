@@ -1,11 +1,12 @@
-resource "vultr_kubernetes_cluster" "cluster" {
-  region       = var.region
-  label        = var.label
-  version      = "v1.28.6"
+resource "vultr_kubernetes" "cluster" {
+  region    = var.region
+  label     = var.label
+  version   = "v1.32.4+3"
+
   node_pools {
-    node_quantity = var.node_count
-    plan          = var.plan
-    label         = "default-node-pool"
-    ssh_keys      = [var.ssh_key_id]
+      node_quantity = var.node_count
+      plan          = var.plan
+      label         = "default-node-pool"
+    
   }
 }

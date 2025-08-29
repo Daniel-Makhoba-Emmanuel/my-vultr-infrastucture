@@ -1,6 +1,7 @@
 # Ignore OpenTofu's cache, binary, and lock files
 .tofu
 .tofu.lock.hcl
+.terraform.lock.hcl
 
 # Ignore sensitive files
 *.tfvars

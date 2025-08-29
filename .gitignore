@@ -1,6 +1,10 @@
+# Ignore OpenTofu's cache, binary, and lock files
 .tofu
 .tofu.lock.hcl
 
 # Ignore sensitive files
-.env
 *.tfvars
+
+# Ignore the state file and its backups
+terraform.tfstate
+terraform.tfstate.backup

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# A more robust script to remove a specific cluster context from the ~/.kube/config file.
+# A fully robust script to remove a specific cluster context from the ~/.kube/config file.
 
 # Check if a cluster name was provided as an argument
 if [ -z "$1" ]; then
@@ -25,10 +25,10 @@ fi
 CURRENT_CONTEXT=$(kubectl config current-context 2>/dev/null)
 if [ "$CURRENT_CONTEXT" == "$CLUSTER_NAME" ]; then
     echo "The cluster to be deleted is the current context. Switching contexts."
-    
-    # Get all context names
-    ALL_CONTEXTS=$(kubectl config get-contexts | tail -n +2 | awk '{print $1}')
-    
+
+    # Get all context names, filtering out the header and the asterisk
+    ALL_CONTEXTS=$(kubectl config get-contexts | tail -n +2 | tr -d '*' | awk '{print $1}')
+
     # Find a context that is not the one to be deleted
     NEW_CONTEXT=""
     for context in $ALL_CONTEXTS; do
@@ -37,7 +37,7 @@ if [ "$CURRENT_CONTEXT" == "$CLUSTER_NAME" ]; then
             break
         fi
     done
-    
+
     if [ -n "$NEW_CONTEXT" ]; then
         kubectl config use-context "$NEW_CONTEXT"
         echo "Switched current context to: $NEW_CONTEXT"
@@ -67,10 +67,13 @@ else
 fi
 
 # --- Step 4: Delete the User Entry ---
-# The user name in Vultr is often 'admin' and not the cluster ID.
-# This part of the script is now more explicit about the user name it is deleting.
-echo "Deleting user: admin"
-kubectl config delete-user "admin"
+# Check if the "admin" user exists before trying to delete it
+if kubectl config get-users | tail -n +2 | awk '{print $1}' | grep -q "admin"; then
+    echo "Deleting user: admin"
+    kubectl config delete-user "admin"
+else
+    echo "User 'admin' not found. Skipping deletion."
+fi
 
 echo "Cleanup process for cluster '$CLUSTER_NAME' completed."
 exit 0

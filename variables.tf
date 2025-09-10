@@ -36,7 +36,7 @@ variable "instance_label" {
 variable "vultr_k8s_plan" {
   description = "The Vultr plan for the cluster's worker nodes (e.g., 'vhf-1c-2gb')."
   type        = string
-  default     = "vhf-1c-2gb"
+  default     = "vhf-2c-2gb"
 }
 
 variable "cluster_label" {
